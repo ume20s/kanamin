@@ -757,12 +757,12 @@ struct LayoutCache_tF844B2FAD6933B78FD5EFEBDE0529BCBAC19BA60  : public RuntimeOb
 	GUILayoutGroup_tD08496E80F283C290B5B90D7BFB3C9C7CC33CD8D* ___windows_3;
 };
 
-// taptoStart/<waitOneSecAndStart>d__7
-struct U3CwaitOneSecAndStartU3Ed__7_t0DAFDDEF75046DD4F5525CF3AE4BF443E487840D  : public RuntimeObject
+// taptoStart/<waitOneSecAndStart>d__9
+struct U3CwaitOneSecAndStartU3Ed__9_t8BE58310A12C37A699D917A4DB19189C83FCBE3A  : public RuntimeObject
 {
-	// System.Int32 taptoStart/<waitOneSecAndStart>d__7::<>1__state
+	// System.Int32 taptoStart/<waitOneSecAndStart>d__9::<>1__state
 	int32_t ___U3CU3E1__state_0;
-	// System.Object taptoStart/<waitOneSecAndStart>d__7::<>2__current
+	// System.Object taptoStart/<waitOneSecAndStart>d__9::<>2__current
 	RuntimeObject* ___U3CU3E2__current_1;
 };
 
@@ -3720,16 +3720,20 @@ struct MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71  : public Behavio
 // taptoStart
 struct taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
-	// UnityEngine.GameObject taptoStart::openingGraphic
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___openingGraphic_4;
-	// UnityEngine.GameObject taptoStart::openingGraphic2
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___openingGraphic2_5;
+	// UnityEngine.GameObject taptoStart::kanaminWaiting
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___kanaminWaiting_4;
+	// UnityEngine.GameObject taptoStart::kanaminStart
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___kanaminStart_5;
+	// UnityEngine.GameObject taptoStart::pushStartStay
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___pushStartStay_6;
+	// UnityEngine.GameObject taptoStart::startFlower
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___startFlower_7;
 	// UnityEngine.AudioSource taptoStart::audioSource
-	AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299* ___audioSource_6;
+	AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299* ___audioSource_8;
 	// UnityEngine.AudioClip taptoStart::bgmOpening
-	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___bgmOpening_7;
+	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___bgmOpening_9;
 	// UnityEngine.AudioClip taptoStart::seStart
-	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___seStart_8;
+	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___seStart_10;
 };
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -4347,10 +4351,10 @@ IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable3296[3] =
 	static_cast<int32_t>(offsetof(XmlReader_t4C709DEF5F01606ECB60B638F1BD6F6E0A9116FD_StaticFields, ___IsTextualNodeBitmap_0)),static_cast<int32_t>(offsetof(XmlReader_t4C709DEF5F01606ECB60B638F1BD6F6E0A9116FD_StaticFields, ___CanReadContentAsBitmap_1)),static_cast<int32_t>(offsetof(XmlReader_t4C709DEF5F01606ECB60B638F1BD6F6E0A9116FD_StaticFields, ___HasValueBitmap_2)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable3299[2] = 
 {
-	static_cast<int32_t>(offsetof(U3CwaitOneSecAndStartU3Ed__7_t0DAFDDEF75046DD4F5525CF3AE4BF443E487840D, ___U3CU3E1__state_0)),static_cast<int32_t>(offsetof(U3CwaitOneSecAndStartU3Ed__7_t0DAFDDEF75046DD4F5525CF3AE4BF443E487840D, ___U3CU3E2__current_1)),};
-IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable3300[5] = 
+	static_cast<int32_t>(offsetof(U3CwaitOneSecAndStartU3Ed__9_t8BE58310A12C37A699D917A4DB19189C83FCBE3A, ___U3CU3E1__state_0)),static_cast<int32_t>(offsetof(U3CwaitOneSecAndStartU3Ed__9_t8BE58310A12C37A699D917A4DB19189C83FCBE3A, ___U3CU3E2__current_1)),};
+IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable3300[7] = 
 {
-	static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___openingGraphic_4)),static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___openingGraphic2_5)),static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___audioSource_6)),static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___bgmOpening_7)),static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___seStart_8)),};
+	static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___kanaminWaiting_4)),static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___kanaminStart_5)),static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___pushStartStay_6)),static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___startFlower_7)),static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___audioSource_8)),static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___bgmOpening_9)),static_cast<int32_t>(offsetof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3, ___seStart_10)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable3304[4] = 
 {
 	static_cast<int32_t>(sizeof(RuntimeObject)),0,0,0,};

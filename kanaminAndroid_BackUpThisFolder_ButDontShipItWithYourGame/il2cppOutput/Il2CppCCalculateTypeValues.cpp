@@ -13730,12 +13730,12 @@ struct UpdaterArray_tF8D43D2A3598E7C17ABB5308E83FDECF1F36A449  : public RuntimeO
 	IVisualTreeUpdaterU5BU5D_t9E9D948BC4F327DA519FEB2BCEC12FB7FD7C59E8* ___m_VisualTreeUpdaters_0;
 };
 
-// taptoStart/<waitOneSecAndStart>d__7
-struct U3CwaitOneSecAndStartU3Ed__7_t0DAFDDEF75046DD4F5525CF3AE4BF443E487840D  : public RuntimeObject
+// taptoStart/<waitOneSecAndStart>d__9
+struct U3CwaitOneSecAndStartU3Ed__9_t8BE58310A12C37A699D917A4DB19189C83FCBE3A  : public RuntimeObject
 {
-	// System.Int32 taptoStart/<waitOneSecAndStart>d__7::<>1__state
+	// System.Int32 taptoStart/<waitOneSecAndStart>d__9::<>1__state
 	int32_t ___U3CU3E1__state_0;
-	// System.Object taptoStart/<waitOneSecAndStart>d__7::<>2__current
+	// System.Object taptoStart/<waitOneSecAndStart>d__9::<>2__current
 	RuntimeObject* ___U3CU3E2__current_1;
 };
 
@@ -43559,16 +43559,20 @@ struct UIDocument_t4186BEBCC01278F63B895274AA08AD9ADFBF4C77_StaticFields
 // taptoStart
 struct taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
-	// UnityEngine.GameObject taptoStart::openingGraphic
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___openingGraphic_4;
-	// UnityEngine.GameObject taptoStart::openingGraphic2
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___openingGraphic2_5;
+	// UnityEngine.GameObject taptoStart::kanaminWaiting
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___kanaminWaiting_4;
+	// UnityEngine.GameObject taptoStart::kanaminStart
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___kanaminStart_5;
+	// UnityEngine.GameObject taptoStart::pushStartStay
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___pushStartStay_6;
+	// UnityEngine.GameObject taptoStart::startFlower
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___startFlower_7;
 	// UnityEngine.AudioSource taptoStart::audioSource
-	AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299* ___audioSource_6;
+	AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299* ___audioSource_8;
 	// UnityEngine.AudioClip taptoStart::bgmOpening
-	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___bgmOpening_7;
+	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___bgmOpening_9;
 	// UnityEngine.AudioClip taptoStart::seStart
-	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___seStart_8;
+	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___seStart_10;
 };
 
 // UnityEngine.UI.Dropdown/DropdownItem
@@ -51237,7 +51241,7 @@ const Il2CppTypeDefinitionSizes g_typeDefinitionSize3297 = { sizeof(XmlNode_t318
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize3298;
 const Il2CppTypeDefinitionSizes g_typeDefinitionSize3298 = { sizeof(U3CModuleU3E_tBB65183F1134474D09FF49B95625D25472B9BA8B), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize3299;
-const Il2CppTypeDefinitionSizes g_typeDefinitionSize3299 = { sizeof(U3CwaitOneSecAndStartU3Ed__7_t0DAFDDEF75046DD4F5525CF3AE4BF443E487840D), -1, 0, 0 };
+const Il2CppTypeDefinitionSizes g_typeDefinitionSize3299 = { sizeof(U3CwaitOneSecAndStartU3Ed__9_t8BE58310A12C37A699D917A4DB19189C83FCBE3A), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize3300;
 const Il2CppTypeDefinitionSizes g_typeDefinitionSize3300 = { sizeof(taptoStart_t6E9EE1B62ACFFEEDB92F68AF27F09DEE32668FE3), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize3301;
