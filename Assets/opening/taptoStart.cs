@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 public class taptoStart : MonoBehaviour
 {
     // ゲームオブジェクト
-    GameObject openingGraphic;
-    GameObject openingGraphic2;
+    GameObject kanaminWaiting;
+    GameObject kanaminStart;
+    GameObject pushStartStay;
+    GameObject startFlower;
     
     // 音声まわりのあれこれ
     AudioSource audioSource;
@@ -18,11 +20,15 @@ public class taptoStart : MonoBehaviour
     void Start()
     {
         // ゲームオブジェクトの取得
-        openingGraphic = GameObject.Find("openingGraphic");
-        openingGraphic2 = GameObject.Find("openingGraphic2");
+        kanaminWaiting = GameObject.Find("kanaminWaiting");
+        kanaminStart = GameObject.Find("kanaminStart");
+        pushStartStay = GameObject.Find("pushStartStay");
+        startFlower = GameObject.Find("startFlower");
 
         // 初期画面
-        openingGraphic2.SetActive(false);
+        kanaminStart.SetActive(false);
+        pushStartStay.SetActive(false);
+        startFlower.SetActive(false);
 
         // BGM開始
         audioSource = GetComponent<AudioSource>();
@@ -33,8 +39,11 @@ public class taptoStart : MonoBehaviour
     public void onClick()
     {
         // 画面遷移
-        openingGraphic2.SetActive(true);
-
+        kanaminWaiting.SetActive(false);
+        kanaminStart.SetActive(true);
+        pushStartStay.SetActive(true);
+        startFlower.SetActive(true);
+        
         // BGM止めてきらりん効果音
         audioSource.Stop();
         audioSource.PlayOneShot(seStart);
@@ -46,8 +55,8 @@ public class taptoStart : MonoBehaviour
     // １秒待ってクイズ画面へ
     IEnumerator waitOneSecAndStart()
     {
-        // １．５秒待つ
-        yield return new WaitForSeconds(1.5f);
+        // １．８秒待つ
+        yield return new WaitForSeconds(1.8f);
 
         // クイズ画面へ
         SceneManager.LoadScene("QuizScene");
