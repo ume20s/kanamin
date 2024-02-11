@@ -52,7 +52,11 @@ extern void U3CwaitOneSecAndStartU3Ed__9_System_Collections_Generic_IEnumeratorU
 extern void U3CwaitOneSecAndStartU3Ed__9_System_Collections_IEnumerator_Reset_mF68B876EB3F7DF434F590E49BA334D1EF6FE375E (void);
 // 0x00000014 System.Object taptoStart/<waitOneSecAndStart>d__9::System.Collections.IEnumerator.get_Current()
 extern void U3CwaitOneSecAndStartU3Ed__9_System_Collections_IEnumerator_get_Current_mCED8B3025D33B5EBA97B8BE159796EF66F45E12C (void);
-static Il2CppMethodPointer s_methodPointers[20] = 
+// 0x00000015 System.Void Ques::.ctor()
+extern void Ques__ctor_m7CE8713D4FE6A5A6F1C2CE5B141D6D4B025061C7 (void);
+// 0x00000016 System.Void Ques::.cctor()
+extern void Ques__cctor_m0DF43951936357FCFB6884458C55190612E10BFE (void);
+static Il2CppMethodPointer s_methodPointers[22] = 
 {
 	GameDirector_Start_m02BE40249C44E2ECC4035D59D4A70F6678A41E9C,
 	GameDirector_Update_m3D758017B69C5F1B1E381BDED2E19E77A17298A5,
@@ -74,8 +78,10 @@ static Il2CppMethodPointer s_methodPointers[20] =
 	U3CwaitOneSecAndStartU3Ed__9_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m1002A565D871AFEB52C10D84560594EC5335543F,
 	U3CwaitOneSecAndStartU3Ed__9_System_Collections_IEnumerator_Reset_mF68B876EB3F7DF434F590E49BA334D1EF6FE375E,
 	U3CwaitOneSecAndStartU3Ed__9_System_Collections_IEnumerator_get_Current_mCED8B3025D33B5EBA97B8BE159796EF66F45E12C,
+	Ques__ctor_m7CE8713D4FE6A5A6F1C2CE5B141D6D4B025061C7,
+	Ques__cctor_m0DF43951936357FCFB6884458C55190612E10BFE,
 };
-static const int32_t s_InvokerIndices[20] = 
+static const int32_t s_InvokerIndices[22] = 
 {
 	3206,
 	3206,
@@ -97,12 +103,14 @@ static const int32_t s_InvokerIndices[20] =
 	3125,
 	3206,
 	3125,
+	3206,
+	4942,
 };
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
 const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
 {
 	"Assembly-CSharp.dll",
-	20,
+	22,
 	s_methodPointers,
 	0,
 	NULL,
