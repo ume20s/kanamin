@@ -12,6 +12,8 @@ public class GameDirector : MonoBehaviour
     public AudioClip vStageStart;
 
     // ゲームオブジェクト
+    GameObject stageText;                                   // ステージ表示
+    GameObject scoreText;                                   // スコア表示
     GameObject questionText;                                // 問題文
     GameObject[] choiceText = new GameObject[4];            // 選択肢
     GameObject stageEyeCatchFrame;                          // ステージアイキャッチ背景
@@ -23,15 +25,19 @@ public class GameDirector : MonoBehaviour
     // 各種変数
     int stage;              // ステージ
     int quesCounter;        // 現在何問目？
+    int correctAnswer;      // 正解選択肢番号
     int gameState;          // 状態遷移変数
 
     // 各状態実行中フラグ
     bool dispStageFlg;      // ステージアイキャッチ表示
+    bool askQuesFlg;        // クイズ出題
 
     // Start is called before the first frame update
     void Start()
     {
         // ゲームオブジェクトの取得
+        stageText = GameObject.Find("StageText");                   // ステージ表示
+        scoreText = GameObject.Find("ScoreText");                   // スコア表示
         questionText = GameObject.Find("questionText");             // 問題文
         choiceText[0] = GameObject.Find("choiceText0");             // 選択肢
         choiceText[1] = GameObject.Find("choiceText1");
@@ -53,6 +59,7 @@ public class GameDirector : MonoBehaviour
 
         // 各状態実行中フラグは全部false
         dispStageFlg = false;
+        askQuesFlg = false;
 
         // クイズ出題順のシャッフル
         int n = 100;
@@ -140,9 +147,33 @@ public class GameDirector : MonoBehaviour
     // クイズ出題
     private void AskQues()
     {
-        questionText.GetComponent<Text>().text = Ques.Q[Ques.Order[quesCounter]];
+        if(!askQuesFlg) {
+            // DEBUG
+            Ques.Order[quesCounter] = 91;
 
+            // クイズ出題中
+            askQuesFlg = true;
+
+            // 問題文の表示
+            questionText.GetComponent<Text>().text = Ques.Q[Ques.Order[quesCounter]];
+
+            // 選択肢順の選択
+            int choiNum = Random.Range(0, 24);
+
+            // 選択肢の表示
+            choiceText[0].GetComponent<Text>().text = Ques.A[Ques.Order[quesCounter], Ques.Choices[choiNum,0]];
+            choiceText[1].GetComponent<Text>().text = Ques.A[Ques.Order[quesCounter], Ques.Choices[choiNum,1]];
+            choiceText[2].GetComponent<Text>().text = Ques.A[Ques.Order[quesCounter], Ques.Choices[choiNum,2]];
+            choiceText[3].GetComponent<Text>().text = Ques.A[Ques.Order[quesCounter], Ques.Choices[choiNum,3]];
+
+            // 正解選択肢番号の保持
+            correctAnswer = choiNum % 6;
+
+            // 解答待ちフェーズへ遷移
+            gameState++;
+
+            // クイズ出題終了
+            askQuesFlg = false;
+        }
     }
-
-
 }
