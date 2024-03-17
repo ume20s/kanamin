@@ -40,6 +40,7 @@ public class GameDirector : MonoBehaviour
     bool dispStageFlg;              // ステージアイキャッチ表示
     bool askQuesFlg;                // クイズ出題
     bool waitingTapFlg;             // タップ待ち
+    bool judgementFlg;              // 正誤判定
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +82,7 @@ public class GameDirector : MonoBehaviour
         dispStageFlg = false;
         askQuesFlg = false;
         dispStageFlg = false;
+        judgementFlg = false;
 
         // クイズ出題順のシャッフル
         int n = 100;
@@ -112,7 +114,7 @@ public class GameDirector : MonoBehaviour
             
             // クイズ出題
             case 1:
-                AskQues();
+                StartCoroutine("AskQues");
                 break;
             
             // タップ待ち
@@ -122,7 +124,7 @@ public class GameDirector : MonoBehaviour
             
             // 正誤判定
             case 3:
-                judgment();
+                StartCoroutine("judgement");
                 break;
             
             // 次のステージへ
@@ -145,6 +147,9 @@ public class GameDirector : MonoBehaviour
         if(!dispStageFlg) {
             // ステージアイキャッチ中
             dispStageFlg = true;
+
+            // 経過時間リセット
+            keikaTime = 0.0f;
 
             // アイキャッチ背景のトランスフォームコンポーネントの取得
             Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
@@ -187,7 +192,7 @@ public class GameDirector : MonoBehaviour
     }
 
     // クイズ出題
-    private void AskQues()
+    IEnumerator AskQues()
     {
         if(!askQuesFlg) {
             // DEBUG
@@ -195,9 +200,6 @@ public class GameDirector : MonoBehaviour
 
             // クイズ出題中
             askQuesFlg = true;
-
-            // 経過時間リセット
-            keikaTime = 0.0f;
 
             // 問題文の表示
             questionText.GetComponent<Text>().text = Ques.Q[Ques.Order[quesCounter]];
@@ -212,12 +214,14 @@ public class GameDirector : MonoBehaviour
             choiceText[3].GetComponent<Text>().text = Ques.A[Ques.Order[quesCounter], Ques.Choices[choiNum,3]];
 
             // 正解選択肢番号の保持
-            correctAnswer = choiNum % 6;
+            correctAnswer = choiNum % 4;
 
             // 解答待ちフェーズへ遷移
             gameState++;
 
             // クイズ出題終了
+            yield return new WaitForSeconds(0.1f);
+
             askQuesFlg = false;
         }
     }
@@ -250,35 +254,36 @@ public class GameDirector : MonoBehaviour
     }
 
     // 正誤判定
-    void judgment()
+    IEnumerator judgement()
     {
-        if(tapNum == correctAnswer) {
-            Seikai();
-        } else {
-            Zannen();
+        if(!judgementFlg) {
+            // 判定中
+            judgementFlg = true;
+
+            if(tapNum == correctAnswer) {
+                // 正解だったら正解エフェクト
+                kanaminSeikai.SetActive(true);
+                kanaminThinking.SetActive(false);
+                yield return new WaitForSeconds(1.0f);
+                kanaminThinking.SetActive(true);
+                kanaminSeikai.SetActive(false);
+            } else {
+                // 不正解だったら残念エフェクト
+                kanaminZannen.SetActive(true);
+                kanaminThinking.SetActive(false);
+                yield return new WaitForSeconds(1.0f);
+                kanaminThinking.SetActive(true);
+                kanaminZannen.SetActive(false);
+            }
+            gameState = 1;
+            quesCounter++;
+
+            // 判定終了
+            judgementFlg = false;
         }
-        gameState = 2;
     }
 
-    // 正解
-    IEnumerator Seikai()
-    {
-        kanaminSeikai.SetActive(true);
-        kanaminThinking.SetActive(false);
-        yield return new WaitForSeconds(1.0f);
-        kanaminThinking.SetActive(true);
-        kanaminSeikai.SetActive(false);
-    }
 
-    // 残念
-    IEnumerator Zannen()
-    {
-        kanaminSeikai.SetActive(true);
-        kanaminThinking.SetActive(false);
-        yield return new WaitForSeconds(1.0f);
-        kanaminThinking.SetActive(true);
-        kanaminSeikai.SetActive(false);
-    }
 
 
 }
