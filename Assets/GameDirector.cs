@@ -9,7 +9,11 @@ public class GameDirector : MonoBehaviour
     // 音声関連
     AudioSource audioSource;
     public AudioClip gameBGM;
-    public AudioClip vStageStart;
+    public AudioClip[] vStageStart = new AudioClip[2];
+    public AudioClip[] vSeikai = new AudioClip[2];
+    public AudioClip vMachigai;
+    public AudioClip[] vStageClear = new AudioClip[2];
+    public AudioClip vGameOver;
 
     // ゲームオブジェクト
     GameObject stageText;                                   // ステージ表示
@@ -22,6 +26,7 @@ public class GameDirector : MonoBehaviour
     GameObject kanaminThinking;                             // かなみん考え中グラフィック
     GameObject kanaminSeikai;                               // かなみん正解グラフィック
     GameObject kanaminZannen;                               // かなみん残念グラフィック
+    GameObject hanamaru;                                    // はなまるグラフィック
     GameObject additionalInfoFrame;                         // 追加情報背景
     GameObject additionalInfoText;                          // 追加情報テキスト
 
@@ -64,6 +69,7 @@ public class GameDirector : MonoBehaviour
         kanaminThinking = GameObject.Find("kanaminThinking");       // かなみん考え中グラフィック
         kanaminSeikai = GameObject.Find("kanaminSeikai");           // かなみん正解グラフィック
         kanaminZannen = GameObject.Find("kanaminZannen");           // かなみん残念グラフィック
+        hanamaru = GameObject.Find("hanamaru");                     // はなまるグラフィック
 
         // 音声コンポーネントの取得
         audioSource = GetComponent<AudioSource>();
@@ -101,6 +107,7 @@ public class GameDirector : MonoBehaviour
         kanaminThinking.SetActive(false);
         kanaminSeikai.SetActive(false);
         kanaminZannen.SetActive(false);
+        hanamaru.SetActive(false);
     }
 
     // Update is called once per frame
@@ -170,7 +177,7 @@ public class GameDirector : MonoBehaviour
 
             // ステージ番号テキストを表示して2.5秒待つ
             stageNumberText.SetActive(true);
-            audioSource.PlayOneShot(vStageStart);
+            audioSource.PlayOneShot(vStageStart[Random.Range(0, 2)]);
             yield return new WaitForSeconds(2.5f);
 
             // ステージアイキャッチを非表示
@@ -264,13 +271,17 @@ public class GameDirector : MonoBehaviour
                 // 正解だったら正解エフェクト
                 kanaminSeikai.SetActive(true);
                 kanaminThinking.SetActive(false);
+                hanamaru.SetActive(true);
+                audioSource.PlayOneShot(vSeikai[Random.Range(0, 2)]);
                 yield return new WaitForSeconds(1.0f);
+                hanamaru.SetActive(false);
                 kanaminThinking.SetActive(true);
                 kanaminSeikai.SetActive(false);
             } else {
                 // 不正解だったら残念エフェクト
                 kanaminZannen.SetActive(true);
                 kanaminThinking.SetActive(false);
+                audioSource.PlayOneShot(vMachigai);
                 yield return new WaitForSeconds(1.0f);
                 kanaminThinking.SetActive(true);
                 kanaminZannen.SetActive(false);
