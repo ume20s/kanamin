@@ -38,6 +38,7 @@ public class GameDirector : MonoBehaviour
     public static int tapNum;       // タップしたボタン番号
     int stage;                      // ステージ
     int quesCounter;                // 現在何問目？
+    int combo;                      // 連続正解数
     float keikaTime;                // 経過時間
     int correctAnswer;              // 正解選択肢番号
 
@@ -83,6 +84,12 @@ public class GameDirector : MonoBehaviour
         stage = 1;
         quesCounter = 0;
         gameState = 0;
+
+        // スコア処理
+        Dt.score = 0;
+        scoreText.GetComponent<Text>().text = "SCORE: " + Dt.score.ToString().PadLeft(4,'0');
+        Dt.highscore = 0;
+
 
         // 各状態実行中フラグは全部false
         dispStageFlg = false;
@@ -157,6 +164,9 @@ public class GameDirector : MonoBehaviour
 
             // 経過時間リセット
             keikaTime = 0.0f;
+
+            // 連続正解数リセット
+            combo = 1;
 
             // アイキャッチ背景のトランスフォームコンポーネントの取得
             Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
@@ -237,24 +247,27 @@ public class GameDirector : MonoBehaviour
     IEnumerator WaitingTap()
     {
         // 経過時間追加
-        keikaTime += Ques.Inc[stage];
+        keikaTime += Dt.Inc[stage];
 
-        if(keikaTime > 176.0f) {
+        if(keikaTime > 171.2f) {
             // タイムオーバーならゲームオーバー
             gameState = 5;  
         } else {
             // 経過時間によって増加する棒を変える
-            if(keikaTime < 58.8f) {         // 上棒
-                timeTf[0].transform.localScale = new Vector3(keikaTime, 1, 1);
+            if(keikaTime < 61.5f) {         // 上棒
+                timeTf[0].transform.localScale = new Vector3(keikaTime, 0.7f, 1);
                 yield return new WaitForSeconds(0.02f);
-            } else if(keikaTime < 88.0f) {  // 右棒
-                timeTf[1].transform.localScale = new Vector3(1, keikaTime-58.8f, 1);
+            } else if(keikaTime < 85.6f) {  // 右棒
+                timeTf[0].transform.localScale = new Vector3(61.5f, 0.7f, 1);
+                timeTf[1].transform.localScale = new Vector3(0.7f, keikaTime-61.5f, 1);
                 yield return new WaitForSeconds(0.02f);
-            } else if(keikaTime < 146.8f) { // 下棒
-                timeTf[2].transform.localScale = new Vector3(1, keikaTime-88.0f, 1);
+            } else if(keikaTime < 147.1f) { // 下棒
+                timeTf[1].transform.localScale = new Vector3(0.7f, 24.1f, 1);
+                timeTf[2].transform.localScale = new Vector3(keikaTime-85.6f, 0.7f, 1);
                 yield return new WaitForSeconds(0.02f);
             } else {
-                timeTf[3].transform.localScale = new Vector3(1, keikaTime-146.8f, 1);
+                timeTf[2].transform.localScale = new Vector3(61.5f, 0.7f, 1);
+                timeTf[3].transform.localScale = new Vector3(0.7f, keikaTime-147.1f, 1);
                 yield return new WaitForSeconds(0.02f);
             }
         }
