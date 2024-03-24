@@ -17,7 +17,9 @@ public class GameDirector : MonoBehaviour
 
     // ゲームオブジェクト
     GameObject stageText;                                   // ステージ表示
+    GameObject seikaiGuageText;                             // 正解数ゲージ表示
     GameObject scoreText;                                   // スコア表示
+    GameObject highscoreText;                               // ハイスコア表示
     GameObject questionText;                                // 問題文
     GameObject[] choiceText = new GameObject[4];            // 選択肢
     GameObject[] timeFlame = new GameObject[4];             // 時間経過棒
@@ -27,6 +29,7 @@ public class GameDirector : MonoBehaviour
     GameObject kanaminSeikai;                               // かなみん正解グラフィック
     GameObject kanaminZannen;                               // かなみん残念グラフィック
     GameObject hanamaru;                                    // はなまるグラフィック
+    GameObject[] otetsuki = new GameObject[3];              // おてつきグラフィック
     GameObject additionalInfoFrame;                         // 追加情報背景
     GameObject additionalInfoText;                          // 追加情報テキスト
 
@@ -38,7 +41,9 @@ public class GameDirector : MonoBehaviour
     public static int tapNum;       // タップしたボタン番号
     int stage;                      // ステージ
     int quesCounter;                // 現在何問目？
-    int combo;                      // 連続正解数
+    int seikaiNum;                  // 正解数
+    int comboNum;                   // 連続正解数
+    int otetsukiNum;                // おてつき回数
     float keikaTime;                // 経過時間
     int correctAnswer;              // 正解選択肢番号
 
@@ -53,6 +58,7 @@ public class GameDirector : MonoBehaviour
     {
         // ゲームオブジェクトの取得
         stageText = GameObject.Find("StageText");                   // ステージ表示
+        seikaiGuageText = GameObject.Find("SeikaiGuage");           // 正解ゲージ表示
         scoreText = GameObject.Find("ScoreText");                   // スコア表示
         questionText = GameObject.Find("questionText");             // 問題文
         choiceText[0] = GameObject.Find("choiceText0");             // 選択肢
@@ -71,6 +77,9 @@ public class GameDirector : MonoBehaviour
         kanaminSeikai = GameObject.Find("kanaminSeikai");           // かなみん正解グラフィック
         kanaminZannen = GameObject.Find("kanaminZannen");           // かなみん残念グラフィック
         hanamaru = GameObject.Find("hanamaru");                     // はなまるグラフィック
+        otetsuki[0] = GameObject.Find("otetsuki1");                 // おてつきグラフィック
+        otetsuki[1] = GameObject.Find("otetsuki2");
+        otetsuki[2] = GameObject.Find("otetsuki3");
 
         // 音声コンポーネントの取得
         audioSource = GetComponent<AudioSource>();
@@ -84,6 +93,7 @@ public class GameDirector : MonoBehaviour
         stage = 1;
         quesCounter = 0;
         gameState = 0;
+        Dt.quesTail = 100;
 
         // スコア処理
         Dt.score = 0;
@@ -115,6 +125,9 @@ public class GameDirector : MonoBehaviour
         kanaminSeikai.SetActive(false);
         kanaminZannen.SetActive(false);
         hanamaru.SetActive(false);
+        for(int i=0; i<3; i++) {
+            otetsuki[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -141,7 +154,7 @@ public class GameDirector : MonoBehaviour
                 StartCoroutine("judgement");
                 break;
             
-            // 次のステージへ
+            // ステージクリア
             case 4:
                 break;
             
@@ -165,8 +178,11 @@ public class GameDirector : MonoBehaviour
             // 経過時間リセット
             keikaTime = 0.0f;
 
-            // 連続正解数リセット
-            combo = 1;
+            // 正解数と連続正解数リセット
+            seikaiNum = 0;
+            comboNum = 0;
+            seikaiGuageText.GetComponent<Text>().text = Dt.seikaiGuage[seikaiNum];
+            otetsukiNum = 0;
 
             // アイキャッチ背景のトランスフォームコンポーネントの取得
             Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
@@ -281,7 +297,16 @@ public class GameDirector : MonoBehaviour
             judgementFlg = true;
 
             if(tapNum == correctAnswer) {
-                // 正解だったら正解エフェクト
+                // 正解だったら得点追加
+                comboNum++;
+                Dt.score += stage * 10 * comboNum;
+                scoreText.GetComponent<Text>().text = "SCORE: " + Dt.score.ToString().PadLeft(4,'0');
+
+                // 正解インジケーター更新
+                seikaiNum++;
+                seikaiGuageText.GetComponent<Text>().text = Dt.seikaiGuage[seikaiNum];
+
+                // 正解エフェクト
                 kanaminSeikai.SetActive(true);
                 kanaminThinking.SetActive(false);
                 hanamaru.SetActive(true);
@@ -290,14 +315,36 @@ public class GameDirector : MonoBehaviour
                 hanamaru.SetActive(false);
                 kanaminThinking.SetActive(true);
                 kanaminSeikai.SetActive(false);
+
+                // ５問正解でステージクリア
+                if(seikaiNum >=5) {
+                    gameState = 4;
+                }
             } else {
-                // 不正解だったら残念エフェクト
+                // 不正解だったら連続正解数を0に
+                comboNum = 0;
+
+                // 不正解問題番号をお尻に追加
+                Ques.Order[Dt.quesTail] = Ques.Order[quesCounter];
+                Dt.quesTail++;
+
+                // 残念エフェクト
                 kanaminZannen.SetActive(true);
                 kanaminThinking.SetActive(false);
+                otetsuki[otetsukiNum].SetActive(true);
                 audioSource.PlayOneShot(vMachigai);
                 yield return new WaitForSeconds(1.0f);
+                otetsuki[otetsukiNum].SetActive(false);
                 kanaminThinking.SetActive(true);
                 kanaminZannen.SetActive(false);
+
+                // おてつき加算
+                otetsukiNum++;
+
+                // おてつき３回でゲームオーバー
+                if(otetsukiNum >= 3) {
+                    gameState = 5;
+                }
             }
             gameState = 1;
             quesCounter++;
