@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameDirector : MonoBehaviour
 {
@@ -160,6 +161,11 @@ public class GameDirector : MonoBehaviour
             
             // ゲームオーバー
             case 5:
+                StartCoroutine("GameOver");
+                break;
+            
+            // 空ルーチン
+            case 10:
                 break;
 
             default:
@@ -293,6 +299,10 @@ public class GameDirector : MonoBehaviour
     IEnumerator judgement()
     {
         if(!judgementFlg) {
+
+            // 判定が終わるまで空ルーチンを回る
+            gameState = 10;
+
             // 判定中
             judgementFlg = true;
 
@@ -319,6 +329,8 @@ public class GameDirector : MonoBehaviour
                 // ５問正解でステージクリア
                 if(seikaiNum >=5) {
                     gameState = 4;
+                } else {
+                    gameState = 1;
                 }
             } else {
                 // 不正解だったら連続正解数を0に
@@ -344,9 +356,10 @@ public class GameDirector : MonoBehaviour
                 // おてつき３回でゲームオーバー
                 if(otetsukiNum >= 3) {
                     gameState = 5;
+                } else {
+                    gameState = 1;
                 }
             }
-            gameState = 1;
             quesCounter++;
 
             // 判定終了
@@ -354,6 +367,15 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+    // ゲームオーバー
+    IEnumerator GameOver()
+    {
+        // ０.５秒待って
+        yield return new WaitForSeconds(0.2f);
+
+        // ゲームオーバー画面へ
+        SceneManager.LoadScene("GameOverScene");
+    }
 
 
 
