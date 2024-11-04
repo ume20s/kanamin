@@ -157,6 +157,7 @@ public class GameDirector : MonoBehaviour
             
             // ステージクリア
             case 4:
+                StartCoroutine("StageClear");
                 break;
             
             // ゲームオーバー
@@ -184,6 +185,12 @@ public class GameDirector : MonoBehaviour
             // 経過時間リセット
             keikaTime = 0.0f;
 
+            // 経過時間棒リセット
+            timeTf[0].transform.localScale = new Vector3(0, 0.7f, 1);
+            timeTf[1].transform.localScale = new Vector3(0.7f, 0, 1);
+            timeTf[2].transform.localScale = new Vector3(0, 0.7f, 1);
+            timeTf[3].transform.localScale = new Vector3(0.7f, 0, 1);
+
             // 正解数と連続正解数リセット
             seikaiNum = 0;
             comboNum = 0;
@@ -207,8 +214,10 @@ public class GameDirector : MonoBehaviour
                 yield return new WaitForSeconds(0.02f);
             }
 
-            // ステージ番号テキストを表示して2.5秒待つ
+            // ステージ番号テキストを表示
             stageNumberText.SetActive(true);
+
+            // ステージスタート音声のあと2.5秒待つ
             audioSource.PlayOneShot(vStageStart[Random.Range(0, 2)]);
             yield return new WaitForSeconds(2.5f);
 
@@ -365,6 +374,53 @@ public class GameDirector : MonoBehaviour
             // 判定終了
             judgementFlg = false;
         }
+    }
+
+    // ステージクリア
+    IEnumerator StageClear()
+    {
+        // ステージクリア処理中は空ルーチンを回る
+        gameState = 10;
+
+        // BGMを止める
+        audioSource.Stop();
+
+        // 問題文と選択肢をクリア
+        questionText.GetComponent<Text>().text = "";
+        for(int i=0; i<4; i++) {
+            choiceText[i].GetComponent<Text>().text = "";
+        }
+
+        // アイキャッチ背景のトランスフォームコンポーネントの取得
+        Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
+
+        // ステージクリア文字列をセット
+        stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString() + " Clear";
+
+        // アイキャッチ背景の高さをゼロにしてから表示
+        tf.transform.localScale = new Vector3(1, 0, 1);
+        stageEyeCatchFrame.SetActive(true);
+
+        // アイキャッチ背景をジワジワ大きくする
+        for(int i=0; i<10; i++) {
+            tf.transform.localScale = new Vector3(1, (float)(i) / 10.0f, 1);
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        // ステージクリアテキストを表示
+        stageNumberText.SetActive(true);
+
+        // ステージクリア音声のあと2.5秒待つ
+        audioSource.PlayOneShot(vStageClear[Random.Range(0, 2)]);
+        yield return new WaitForSeconds(2.5f);
+
+        // ステージアイキャッチを非表示
+        stageEyeCatchFrame.SetActive(false);
+        stageNumberText.SetActive(false);
+
+        // ステージを進める
+        stage++;
+        gameState = 0;
     }
 
     // ゲームオーバー
