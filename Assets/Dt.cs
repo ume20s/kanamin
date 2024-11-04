@@ -7,13 +7,14 @@ public class Dt : MonoBehaviour
     // 変数いろいろ
     public static int score;            // スコア
     public static int highscore;        // ハイスコア
+    public static string SAVE_KEY = "HighScore";    // ハイスコア保存キー
     public static int quesTail;         // 設定クイズ番号のお尻
 
     // 問題の待ち時間棒の時間当たり増分
     public static readonly float[] Inc = {
         0.01f,   // ０番目はダミー
-        0.05f, 0.10f, 0.15f, 0.20f, 0.25f, 0.30f, 0.35f, 0.40f, 0.45f, 0.50f, 
-        0.55f, 0.60f, 0.65f, 0.70f, 0.75f, 0.80f, 0.85f, 0.90f, 0.95f, 1.00f, 
+        0.025f, 0.050f, 0.075f, 0.100f, 0.125f, 0.150f, 0.175f, 0.200f, 0.225f, 0.250f, 
+        0.275f, 0.300f, 0.325f, 0.350f, 0.375f, 0.400f, 0.425f, 0.450f, 0.475f, 0.500f 
     };
 
     // 正解数インジケーター

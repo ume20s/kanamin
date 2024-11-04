@@ -61,6 +61,7 @@ public class GameDirector : MonoBehaviour
         stageText = GameObject.Find("StageText");                   // ステージ表示
         seikaiGuageText = GameObject.Find("SeikaiGuage");           // 正解ゲージ表示
         scoreText = GameObject.Find("ScoreText");                   // スコア表示
+        highscoreText = GameObject.Find("HighScoreText");           // ハイスコア表示
         questionText = GameObject.Find("questionText");             // 問題文
         choiceText[0] = GameObject.Find("choiceText0");             // 選択肢
         choiceText[1] = GameObject.Find("choiceText1");
@@ -99,8 +100,10 @@ public class GameDirector : MonoBehaviour
         // スコア処理
         Dt.score = 0;
         scoreText.GetComponent<Text>().text = "SCORE: " + Dt.score.ToString().PadLeft(4,'0');
-        Dt.highscore = 0;
 
+        // ハイスコア読み込み
+        Dt.highscore = PlayerPrefs.GetInt(Dt.SAVE_KEY, 0);
+        highscoreText.GetComponent<Text>().text = "HIGHSCORE: " + Dt.highscore.ToString().PadLeft(4,'0');
 
         // 各状態実行中フラグは全部false
         dispStageFlg = false;
@@ -202,7 +205,7 @@ public class GameDirector : MonoBehaviour
 
             // ステージ文字列をセット
             stageText.GetComponent<Text>().text = "STAGE: " + stage.ToString();
-            stageNumberText.GetComponent<Text>().text = "STAGE: " + stage.ToString();
+            stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString();
 
             // アイキャッチ背景の高さをゼロにしてから表示
             tf.transform.localScale = new Vector3(1, 0, 1);
@@ -320,6 +323,7 @@ public class GameDirector : MonoBehaviour
                 comboNum++;
                 Dt.score += stage * 10 * comboNum;
                 scoreText.GetComponent<Text>().text = "SCORE: " + Dt.score.ToString().PadLeft(4,'0');
+                checkHighscore();
 
                 // 正解インジケーター更新
                 seikaiNum++;
@@ -395,7 +399,7 @@ public class GameDirector : MonoBehaviour
         Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
 
         // ステージクリア文字列をセット
-        stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString() + " Clear";
+        stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString() + " CLEAR";
 
         // アイキャッチ背景の高さをゼロにしてから表示
         tf.transform.localScale = new Vector3(1, 0, 1);
@@ -433,6 +437,20 @@ public class GameDirector : MonoBehaviour
         SceneManager.LoadScene("GameOverScene");
     }
 
+    // ハイスコアチェック
+    private void checkHighscore()
+    {
+        // 現スコアがハイスコアを上回ったら
+        if (Dt.score > Dt.highscore) {
+            // ハイスコア更新
+            Dt.highscore = Dt.score;
+            highscoreText.GetComponent<Text>().text = "HIGHSCORE: " + Dt.highscore.ToString().PadLeft(4,'0');
+
+            // ハイスコア保存
+            PlayerPrefs.SetInt(Dt.SAVE_KEY, Dt.highscore);
+            PlayerPrefs.Save();
+        }
+    }
 
 
 }

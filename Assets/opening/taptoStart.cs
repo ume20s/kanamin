@@ -59,7 +59,7 @@ public class taptoStart : MonoBehaviour
         yield return new WaitForSeconds(1.8f);
 
         // クイズ画面へ
-        SceneManager.LoadScene("SetsumeiScene1");
+        SceneManager.LoadScene("QuizScene");
     }
 
 }
