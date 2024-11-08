@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/OpeningScene.unity
     guid: a19225127b08cab479be7eed4f05c126
   - enabled: 1
-    path: Assets/SetsumeiScene1.unity
-    guid: b3e0d0124227cd845be71e01292599e5
-  - enabled: 1
     path: Assets/QuizScene.unity
     guid: 5775a5af51d9ec84f9dc7ad5f8cb9078
   - enabled: 1

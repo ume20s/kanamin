@@ -165,7 +165,7 @@ public class GameDirector : MonoBehaviour
             
             // ゲームオーバー
             case 5:
-                StartCoroutine("GameOver");
+                SceneManager.LoadScene("GameOverScene");
                 break;
             
             // 空ルーチン
@@ -425,16 +425,6 @@ public class GameDirector : MonoBehaviour
         // ステージを進める
         stage++;
         gameState = 0;
-    }
-
-    // ゲームオーバー
-    IEnumerator GameOver()
-    {
-        // ０.５秒待って
-        yield return new WaitForSeconds(0.2f);
-
-        // ゲームオーバー画面へ
-        SceneManager.LoadScene("GameOverScene");
     }
 
     // ハイスコアチェック
