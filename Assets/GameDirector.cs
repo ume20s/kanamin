@@ -31,6 +31,7 @@ public class GameDirector : MonoBehaviour
     GameObject kanaminZannen;                               // かなみん残念グラフィック
     GameObject hanamaru;                                    // はなまるグラフィック
     GameObject[] otetsuki = new GameObject[3];              // おてつきグラフィック
+    GameObject[] hanapoint = new GameObject[3];             // はなまるポイント
     GameObject additionalInfoFrame;                         // 追加情報背景
     GameObject additionalInfoText;                          // 追加情報テキスト
 
@@ -79,6 +80,9 @@ public class GameDirector : MonoBehaviour
         kanaminSeikai = GameObject.Find("kanaminSeikai");           // かなみん正解グラフィック
         kanaminZannen = GameObject.Find("kanaminZannen");           // かなみん残念グラフィック
         hanamaru = GameObject.Find("hanamaru");                     // はなまるグラフィック
+        hanapoint[0] = GameObject.Find("hanapoint1");               // はなまるポイントグラフィック
+        hanapoint[1] = GameObject.Find("hanapoint2");
+        hanapoint[2] = GameObject.Find("hanapoint3");
         otetsuki[0] = GameObject.Find("otetsuki1");                 // おてつきグラフィック
         otetsuki[1] = GameObject.Find("otetsuki2");
         otetsuki[2] = GameObject.Find("otetsuki3");
@@ -200,6 +204,14 @@ public class GameDirector : MonoBehaviour
             seikaiGuageText.GetComponent<Text>().text = Dt.seikaiGuage[seikaiNum];
             otetsukiNum = 0;
 
+            // はなまるポイント表示
+            for(int i=0; i<3; i++) {
+                hanapoint[i].SetActive(true);
+            }
+
+            // かなみん表示
+            kanaminThinking.SetActive(true);
+
             // アイキャッチ背景のトランスフォームコンポーネントの取得
             Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
 
@@ -227,9 +239,6 @@ public class GameDirector : MonoBehaviour
             // ステージアイキャッチを非表示
             stageEyeCatchFrame.SetActive(false);
             stageNumberText.SetActive(false);
-
-            // かなみん表示
-            kanaminThinking.SetActive(true);
 
             // ＢＧＭ開始
             audioSource.Play();
@@ -356,16 +365,19 @@ public class GameDirector : MonoBehaviour
                 Ques.Order[Dt.quesTail] = Ques.Order[quesCounter];
                 Dt.quesTail++;
 
+                // おてつき加算
+                otetsukiNum++;
+
+                // はなまるポイント非表示
+                hanapoint[otetsukiNum-1].SetActive(false);
+
                 // かなみん残念グラフィックにして１秒待つ
                 kanaminZannen.SetActive(true);
                 kanaminThinking.SetActive(false);
-                otetsuki[otetsukiNum].SetActive(true);
+                otetsuki[otetsukiNum-1].SetActive(true);
                 audioSource.PlayOneShot(vMachigai);
                 yield return new WaitForSeconds(1.0f);
-                otetsuki[otetsukiNum].SetActive(false);
-
-                // おてつき加算
-                otetsukiNum++;
+                otetsuki[otetsukiNum-1].SetActive(false);
 
                 // おてつき３回でゲームオーバー
                 if(otetsukiNum >= 3) {
