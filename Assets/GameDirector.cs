@@ -315,6 +315,9 @@ public class GameDirector : MonoBehaviour
             // 判定が終わるまで空ルーチンを回る
             gameState = 10;
 
+            // タップされたら問題番号加算
+            quesCounter++;
+            
             // 判定中
             judgementFlg = true;
 
@@ -377,7 +380,6 @@ public class GameDirector : MonoBehaviour
                 kanaminThinking.SetActive(true);
                 kanaminZannen.SetActive(false);
             }
-            quesCounter++;
 
             // 判定終了
             judgementFlg = false;
