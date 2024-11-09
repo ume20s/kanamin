@@ -353,25 +353,29 @@ public class GameDirector : MonoBehaviour
                 Ques.Order[Dt.quesTail] = Ques.Order[quesCounter];
                 Dt.quesTail++;
 
-                // 残念エフェクト
+                // かなみん残念グラフィックにして１秒待つ
                 kanaminZannen.SetActive(true);
                 kanaminThinking.SetActive(false);
                 otetsuki[otetsukiNum].SetActive(true);
                 audioSource.PlayOneShot(vMachigai);
                 yield return new WaitForSeconds(1.0f);
                 otetsuki[otetsukiNum].SetActive(false);
-                kanaminThinking.SetActive(true);
-                kanaminZannen.SetActive(false);
 
                 // おてつき加算
                 otetsukiNum++;
 
                 // おてつき３回でゲームオーバー
                 if(otetsukiNum >= 3) {
-                    gameState = 5;
+                    SceneManager.LoadScene("GameOverScene");
                 } else {
                     gameState = 1;
                 }
+                
+                // ゲームオーバーへの遷移対策で０．１秒待ってから
+                // かなみん考え中グラフィックに戻す
+                yield return new WaitForSeconds(0.1f);
+                kanaminThinking.SetActive(true);
+                kanaminZannen.SetActive(false);
             }
             quesCounter++;
 
