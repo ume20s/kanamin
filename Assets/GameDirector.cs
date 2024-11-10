@@ -387,9 +387,6 @@ public class GameDirector : MonoBehaviour
                 // おてつき加算
                 otetsukiNum++;
 
-                // はなまるポイント非表示
-                hanapoint[otetsukiNum-1].SetActive(false);
-
                 // おてつき表示
                 if(stage < exStageStart) {
                    otetsuki[otetsukiNum-1].SetActive(true);
@@ -397,12 +394,20 @@ public class GameDirector : MonoBehaviour
                    otetsukiEx.SetActive(true);
                 }
 
-                // かなみん残念グラフィックにして１秒待つ
+                // かなみん残念グラフィックにして間違い音声
                 kanaminZannen.SetActive(true);
                 kanaminThinking.SetActive(false);
                 audioSource.PlayOneShot(vMachigai);
-                yield return new WaitForSeconds(1.0f);
-                otetsuki[otetsukiNum-1].SetActive(false);
+
+                // はなまるポイント爆発霧散
+                Transform tf = hanapoint[otetsukiNum-1].GetComponent<Transform>();
+                for(int i=1; i<10; i++) {
+                    tf.transform.localScale = new Vector3((float)(i), (float)(i), 1);
+                    hanapoint[otetsukiNum-1].GetComponent<SpriteRenderer> ().color = new Color (1.0f, 0.41f, 0.314f, 1.0f/(float)(i));
+                    yield return new WaitForSeconds(0.05f);
+                }
+                hanapoint[otetsukiNum-1].SetActive(false);
+                yield return new WaitForSeconds(0.5f);
 
                 // おてつき３回でゲームオーバー
                 if(otetsukiNum >= 3) {
@@ -411,6 +416,9 @@ public class GameDirector : MonoBehaviour
                     gameState = 1;
                 }
                 
+                // お手つき非表示
+                otetsuki[otetsukiNum-1].SetActive(false);
+
                 // ゲームオーバーシーンへの遷移対策で０．１秒待ってから
                 // かなみん考え中グラフィックに戻す
                 yield return new WaitForSeconds(0.1f);
