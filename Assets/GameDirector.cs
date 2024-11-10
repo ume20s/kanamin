@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class GameDirector : MonoBehaviour
 {
+    // 特別ステージを開始するステージ番目
+    const int exStageStart = 6;
+
     // 音声関連
     AudioSource audioSource;
     public AudioClip gameBGM;
@@ -31,6 +34,7 @@ public class GameDirector : MonoBehaviour
     GameObject kanaminZannen;                               // かなみん残念グラフィック
     GameObject hanamaru;                                    // はなまるグラフィック
     GameObject[] otetsuki = new GameObject[3];              // おてつきグラフィック
+    GameObject otetsukiEx;                                  // 特別ステージ用おてつきグラフィック
     GameObject[] hanapoint = new GameObject[3];             // はなまるポイント
     GameObject additionalInfoFrame;                         // 追加情報背景
     GameObject additionalInfoText;                          // 追加情報テキスト
@@ -86,6 +90,7 @@ public class GameDirector : MonoBehaviour
         otetsuki[0] = GameObject.Find("otetsuki1");                 // おてつきグラフィック
         otetsuki[1] = GameObject.Find("otetsuki2");
         otetsuki[2] = GameObject.Find("otetsuki3");
+        otetsukiEx = GameObject.Find("otetsuki0");                  // 特別ステージ用おてつきグラフィック
 
         // 音声コンポーネントの取得
         audioSource = GetComponent<AudioSource>();
@@ -136,6 +141,7 @@ public class GameDirector : MonoBehaviour
         for(int i=0; i<3; i++) {
             otetsuki[i].SetActive(false);
         }
+        otetsukiEx.SetActive(false);
     }
 
     // Update is called once per frame
@@ -202,11 +208,19 @@ public class GameDirector : MonoBehaviour
             seikaiNum = 0;
             comboNum = 0;
             seikaiGuageText.GetComponent<Text>().text = Dt.seikaiGuage[seikaiNum];
-            otetsukiNum = 0;
 
             // はなまるポイント表示
-            for(int i=0; i<3; i++) {
-                hanapoint[i].SetActive(true);
+            if(stage < exStageStart) {
+                otetsukiNum = 0;
+                for(int i=0; i<3; i++) {
+                    hanapoint[i].SetActive(true);
+                }
+            } else {
+                // 特別ステージは既におてつき２回していると考える
+                otetsukiNum = 2;
+                hanapoint[0].SetActive(false);
+                hanapoint[1].SetActive(false);
+                hanapoint[2].SetActive(true);
             }
 
             // かなみん表示
@@ -216,8 +230,13 @@ public class GameDirector : MonoBehaviour
             Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
 
             // ステージ文字列をセット
-            stageText.GetComponent<Text>().text = "STAGE: " + stage.ToString();
-            stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString();
+            if(stage < exStageStart) {
+                stageText.GetComponent<Text>().text = "STAGE: " + stage.ToString();
+                stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString();
+            } else {
+                stageText.GetComponent<Text>().text = "STAGE: EX" + (stage-exStageStart+1).ToString();
+                stageNumberText.GetComponent<Text>().text = "特別STAGE " + (stage-exStageStart+1).ToString();
+            }
 
             // アイキャッチ背景の高さをゼロにしてから表示
             tf.transform.localScale = new Vector3(1, 0, 1);
@@ -294,7 +313,7 @@ public class GameDirector : MonoBehaviour
 
         if(keikaTime > 171.2f) {
             // タイムオーバーならゲームオーバー
-            gameState = 5;  
+            SceneManager.LoadScene("GameOverScene");
         } else {
             // 経過時間によって増加する棒を変える
             if(keikaTime < 61.5f) {         // 上棒
@@ -371,10 +390,16 @@ public class GameDirector : MonoBehaviour
                 // はなまるポイント非表示
                 hanapoint[otetsukiNum-1].SetActive(false);
 
+                // おてつき表示
+                if(stage < exStageStart) {
+                   otetsuki[otetsukiNum-1].SetActive(true);
+                } else {
+                   otetsukiEx.SetActive(true);
+                }
+
                 // かなみん残念グラフィックにして１秒待つ
                 kanaminZannen.SetActive(true);
                 kanaminThinking.SetActive(false);
-                otetsuki[otetsukiNum-1].SetActive(true);
                 audioSource.PlayOneShot(vMachigai);
                 yield return new WaitForSeconds(1.0f);
                 otetsuki[otetsukiNum-1].SetActive(false);
@@ -386,7 +411,7 @@ public class GameDirector : MonoBehaviour
                     gameState = 1;
                 }
                 
-                // ゲームオーバーへの遷移対策で０．１秒待ってから
+                // ゲームオーバーシーンへの遷移対策で０．１秒待ってから
                 // かなみん考え中グラフィックに戻す
                 yield return new WaitForSeconds(0.1f);
                 kanaminThinking.SetActive(true);
@@ -417,7 +442,11 @@ public class GameDirector : MonoBehaviour
         Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
 
         // ステージクリア文字列をセット
-        stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString() + " CLEAR";
+        if(stage < exStageStart) {
+            stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString() + " CLEAR";
+        } else {
+            stageNumberText.GetComponent<Text>().text = "特別STAGE " + (stage-exStageStart+1).ToString() + " CLEAR";
+        }
 
         // アイキャッチ背景の高さをゼロにしてから表示
         tf.transform.localScale = new Vector3(1, 0, 1);
