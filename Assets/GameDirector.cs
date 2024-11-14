@@ -173,11 +173,6 @@ public class GameDirector : MonoBehaviour
                 StartCoroutine("StageClear");
                 break;
             
-            // ゲームオーバー
-            case 5:
-                SceneManager.LoadScene("GameOverScene");
-                break;
-            
             // 空ルーチン
             case 10:
                 break;
