@@ -224,9 +224,6 @@ public class GameDirector : MonoBehaviour
             // かなみん表示
             kanaminThinking.SetActive(true);
 
-            // アイキャッチ背景のトランスフォームコンポーネントの取得
-            Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
-
             // ステージ文字列をセット
             if(stage == lastStage) {
                 stageText.GetComponent<Text>().text = "LAST STAGE";
@@ -242,12 +239,12 @@ public class GameDirector : MonoBehaviour
             }
 
             // アイキャッチ背景の高さをゼロにしてから表示
-            tf.transform.localScale = new Vector3(1, 0, 1);
+            stageEyeCatchFrame.GetComponent<Transform>().transform.localScale = new Vector3(1, 0, 1);
             stageEyeCatchFrame.SetActive(true);
 
             // アイキャッチ背景をジワジワ大きくする
             for(int i=0; i<10; i++) {
-                tf.transform.localScale = new Vector3(1, (float)(i) / 10.0f, 1);
+                stageEyeCatchFrame.GetComponent<Transform>().transform.localScale = new Vector3(1, (float)(i) / 10.0f, 1);
                 yield return new WaitForSeconds(0.02f);
             }
 

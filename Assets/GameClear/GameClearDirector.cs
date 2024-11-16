@@ -28,9 +28,6 @@ public class GameClearDirector : MonoBehaviour
         kanaminHyoshojo = GameObject.Find("hyoshojo");              // 表彰状グラフィック
         tappingArea = GameObject.Find("TappingArea");               // タップ領域
 
-        // ゲームオブジェクトのトランスフォームコンポーネントの取得
-        Transform hyoshojoTf = kanaminHyoshojo.GetComponent<Transform>();
-
         // タップ無効
         tappingArea.SetActive(false);
 
@@ -38,8 +35,18 @@ public class GameClearDirector : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         audioSource.PlayOneShot(seGameClear);
 
-        yield return new WaitForSeconds(0.01f);
+        // 表彰状ズームイン
+        for(int i=150; i>=15; i-=5) {
+            kanaminHyoshojo.GetComponent<Transform>().transform.localScale = new Vector3((float)(i)/10.0f, (float)(i)/10.0f, 1);
+            yield return new WaitForSeconds(0.02f);
+        }
+        yield return new WaitForSeconds(0.2f);
 
+        // ゲームクリア音声
+        audioSource.PlayOneShot(vGameClear);
+
+        // タップ有効
+        tappingArea.SetActive(true);
     }
 
 }
