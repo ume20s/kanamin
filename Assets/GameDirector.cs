@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class GameDirector : MonoBehaviour
 {
-    // 特別ステージを開始するステージ番目
-    const int exStageStart = 6;
+    
+    const int exStageStart = 3;                             // 特別ステージを開始するステージ番目
+    const int lastStage = 5;                                // 最終ステージ番目
 
     // 音声関連
     AudioSource audioSource;
@@ -208,6 +209,8 @@ public class GameDirector : MonoBehaviour
             if(stage < exStageStart) {
                 otetsukiNum = 0;
                 for(int i=0; i<3; i++) {
+                    hanapoint[i].GetComponent<Transform>().transform.localScale = new Vector3(1, 1, 1);
+                    hanapoint[i].GetComponent<SpriteRenderer> ().color = new Color (1.0f, 0.41f, 0.314f, 1.0f);
                     hanapoint[i].SetActive(true);
                 }
             } else {
@@ -225,12 +228,17 @@ public class GameDirector : MonoBehaviour
             Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
 
             // ステージ文字列をセット
-            if(stage < exStageStart) {
-                stageText.GetComponent<Text>().text = "STAGE: " + stage.ToString();
-                stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString();
+            if(stage == lastStage) {
+                stageText.GetComponent<Text>().text = "LAST STAGE";
+                stageNumberText.GetComponent<Text>().text = "最終STAGE";
             } else {
-                stageText.GetComponent<Text>().text = "STAGE: EX" + (stage-exStageStart+1).ToString();
-                stageNumberText.GetComponent<Text>().text = "特別STAGE " + (stage-exStageStart+1).ToString();
+                if(stage < exStageStart) {
+                    stageText.GetComponent<Text>().text = "STAGE: " + stage.ToString();
+                    stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString();
+                } else {
+                    stageText.GetComponent<Text>().text = "STAGE: EX" + (stage-exStageStart+1).ToString();
+                    stageNumberText.GetComponent<Text>().text = "特別STAGE " + (stage-exStageStart+1).ToString();
+                }
             }
 
             // アイキャッチ背景の高さをゼロにしてから表示
@@ -395,9 +403,8 @@ public class GameDirector : MonoBehaviour
                 audioSource.PlayOneShot(vMachigai);
 
                 // はなまるポイント爆発霧散
-                Transform tf = hanapoint[otetsukiNum-1].GetComponent<Transform>();
                 for(int i=1; i<10; i++) {
-                    tf.transform.localScale = new Vector3((float)(i), (float)(i), 1);
+                    hanapoint[otetsukiNum-1].GetComponent<Transform>().transform.localScale = new Vector3((float)(i), (float)(i), 1);
                     hanapoint[otetsukiNum-1].GetComponent<SpriteRenderer> ().color = new Color (1.0f, 0.41f, 0.314f, 1.0f/(float)(i));
                     yield return new WaitForSeconds(0.05f);
                 }
@@ -445,10 +452,14 @@ public class GameDirector : MonoBehaviour
         Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
 
         // ステージクリア文字列をセット
-        if(stage < exStageStart) {
-            stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString() + " CLEAR";
+        if(stage == lastStage) {
+            stageNumberText.GetComponent<Text>().text = "最終STAGE CLEAR";
         } else {
-            stageNumberText.GetComponent<Text>().text = "特別STAGE " + (stage-exStageStart+1).ToString() + " CLEAR";
+            if(stage < exStageStart) {
+                stageNumberText.GetComponent<Text>().text = "STAGE " + stage.ToString() + " CLEAR";
+            } else {
+                stageNumberText.GetComponent<Text>().text = "特別STAGE " + (stage-exStageStart+1).ToString() + " CLEAR";
+            }
         }
 
         // アイキャッチ背景の高さをゼロにしてから表示
@@ -471,6 +482,11 @@ public class GameDirector : MonoBehaviour
         // ステージアイキャッチを非表示
         stageEyeCatchFrame.SetActive(false);
         stageNumberText.SetActive(false);
+
+        // 最終ステージならゲームクリア
+        if(stage == lastStage) {
+            SceneManager.LoadScene("GameClearScene");
+        }
 
         // ステージを進める
         stage++;
