@@ -9,7 +9,7 @@ public class GameDirector : MonoBehaviour
 {
     
     const int exStageStart = 3;                             // 特別ステージを開始するステージ番目
-    const int lastStage = 5;                                // 最終ステージ番目
+    const int finalStage = 5;                               // 最終ステージ番目
 
     // 音声関連
     AudioSource audioSource;
@@ -225,8 +225,8 @@ public class GameDirector : MonoBehaviour
             kanaminThinking.SetActive(true);
 
             // ステージ文字列をセット
-            if(stage == lastStage) {
-                stageText.GetComponent<Text>().text = "LAST STAGE";
+            if(stage == finalStage) {
+                stageText.GetComponent<Text>().text = "FINAL STAGE";
                 stageNumberText.GetComponent<Text>().text = "最終STAGE";
             } else {
                 if(stage < exStageStart) {
@@ -445,11 +445,8 @@ public class GameDirector : MonoBehaviour
             choiceText[i].GetComponent<Text>().text = "";
         }
 
-        // アイキャッチ背景のトランスフォームコンポーネントの取得
-        Transform tf = stageEyeCatchFrame.GetComponent<Transform>();
-
         // ステージクリア文字列をセット
-        if(stage == lastStage) {
+        if(stage == finalStage) {
             stageNumberText.GetComponent<Text>().text = "最終STAGE CLEAR";
         } else {
             if(stage < exStageStart) {
@@ -460,12 +457,12 @@ public class GameDirector : MonoBehaviour
         }
 
         // アイキャッチ背景の高さをゼロにしてから表示
-        tf.transform.localScale = new Vector3(1, 0, 1);
+        stageEyeCatchFrame.GetComponent<Transform>().transform.localScale = new Vector3(1, 0, 1);
         stageEyeCatchFrame.SetActive(true);
 
         // アイキャッチ背景をジワジワ大きくする
         for(int i=0; i<10; i++) {
-            tf.transform.localScale = new Vector3(1, (float)(i) / 10.0f, 1);
+            stageEyeCatchFrame.GetComponent<Transform>().transform.localScale = new Vector3(1, (float)(i) / 10.0f, 1);
             yield return new WaitForSeconds(0.02f);
         }
 
@@ -481,7 +478,7 @@ public class GameDirector : MonoBehaviour
         stageNumberText.SetActive(false);
 
         // 最終ステージならゲームクリア
-        if(stage == lastStage) {
+        if(stage == finalStage) {
             SceneManager.LoadScene("GameClearScene");
         }
 
@@ -504,6 +501,4 @@ public class GameDirector : MonoBehaviour
             PlayerPrefs.Save();
         }
     }
-
-
 }
