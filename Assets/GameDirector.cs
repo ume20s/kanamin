@@ -13,7 +13,7 @@ public class GameDirector : MonoBehaviour
 
     // 音声関連
     AudioSource audioSource;
-    public AudioClip gameBGM;
+    public AudioClip[] gameBGM = new AudioClip[3];
     public AudioClip[] vStageStart = new AudioClip[2];
     public AudioClip[] vSeikai = new AudioClip[2];
     public AudioClip vMachigai;
@@ -260,6 +260,16 @@ public class GameDirector : MonoBehaviour
             stageNumberText.SetActive(false);
 
             // ＢＧＭ開始
+            if(stage == finalStage) {
+                audioSource.clip = gameBGM[2];
+            } else {
+                if(stage < exStageStart) {
+                    audioSource.clip = gameBGM[0];
+                } else {
+                    audioSource.clip = gameBGM[1];
+                }
+
+            }
             audioSource.Play();
 
             // クイズ出題フェーズへ遷移

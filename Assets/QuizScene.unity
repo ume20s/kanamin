@@ -3727,7 +3727,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe63ada6752f7848a78627525470e37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameBGM: {fileID: 8300000, guid: 9798e0e528918e94b89899cb5b8aa83d, type: 3}
+  gameBGM:
+  - {fileID: 8300000, guid: 9798e0e528918e94b89899cb5b8aa83d, type: 3}
+  - {fileID: 8300000, guid: 999a02e21b2728b4ba9740943aa46e0b, type: 3}
+  - {fileID: 8300000, guid: c180bf4aa49e58b4c94f6588e99b99d0, type: 3}
   vStageStart:
   - {fileID: 8300000, guid: 8d6488cb25a3a6149a7302896c1533ec, type: 3}
   - {fileID: 8300000, guid: 71c16b159ade0594484a0a588f55aa7b, type: 3}

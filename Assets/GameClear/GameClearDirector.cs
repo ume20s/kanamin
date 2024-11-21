@@ -62,7 +62,7 @@ public class GameClearDirector : MonoBehaviour
                 yield return new WaitForSeconds(0.05f);
             }
         }
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.0f);
 
         // 背景チェンジ
         hyoshojoBackGround.SetActive(true);
