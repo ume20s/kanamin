@@ -8,8 +8,8 @@ using UnityEngine.UI;
 public class GameDirector : MonoBehaviour
 {
     
-    const int exStageStart = 16;                            // 特別ステージを開始するステージ番目
-    const int finalStage = 20;                              // 最終ステージ番目
+    const int exStageStart = 11;                            // 特別ステージを開始するステージ番目
+    const int finalStage = 25;                              // 最終ステージ番目
 
     // 音声関連
     AudioSource audioSource;
